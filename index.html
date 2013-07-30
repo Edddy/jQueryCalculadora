@@ -8,16 +8,20 @@
     <title>jQuery Calculadora</title>
     <script>
         $(function () {
-            $("input").calculadora();
+            $("input.integer").calculadora({decimals: 0, useCommaAsDecimalMark: false});
+            $("input.decimal").calculadora({decimals: 2, useCommaAsDecimalMark: false});
         })
-
     </script>
     
 </head>
 <body>
-    <h1>jQuery Calculadora</h1>
+    <h1>jQuery Calculadora 0.2</h1>
+    <p>A simple plugin for doing simple inline calculation inside any &lt;input&rt;
+    <p>Always loved to make simple calculations inside any number textbox on MS Money, now you can do it with jQuery also. I skipped showing the calculator, because it will create big trouble maintaining the focus in the input, but show a nice ticket with the past operations.
+
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ut quam sapien, id dictum purus. Ut vel consectetur justo. Sed suscipit justo ullamcorper diam interdum laoreet pulvinar nisl laoreet. Sed sem est, feugiat commodo bibendum vel, laoreet ac sapien. Fusce nisl nulla, commodo ut ultricies ut, iaculis a dolor. Nunc ultrices elit at tellus scelerisque vel vestibulum justo pretium. Suspendisse potenti. Suspendisse nec felis sem. Donec at tellus dolor, vehicula placerat lacus. Ut non libero at massa convallis imperdiet non rhoncus tellus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nunc nibh velit, congue quis tincidunt sed, feugiat a turpis. Phasellus erat justo, dictum non iaculis sit amet, auctor quis neque. Cras leo tortor, consequat non tincidunt sed, lacinia ut nibh. Etiam eu mollis quam. In eu felis velit, at bibendum sapien. Aenean sed est urna. Sed dignissim dapibus dolor sed pellentesque. Aliquam viverra ipsum sit amet justo gravida in facilisis sapien volutpat.</p>
-    <input class="numeric" placeholder="Press +, -, / or * to calculate" style="text-align: right;" />
+    <input class="integer" placeholder="Press +, -, / or * to calculate" style="text-align: right; width: 150px" />
     <input value="Another text field" />
+    <input class="decimal" placeholder="Press +, -, / or * to calculate" style="text-align: right; width: 150px" />
 </body>
 </html>

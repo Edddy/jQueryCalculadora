@@ -1,17 +1,26 @@
 /*
- * jQuery Calculadora 0.1
+ * jQuery Calculadora 0.2
  * Copyright 2013, Eduardo Molteni
  *
 */
 
 (function($){
     $.fn.extend({
-        calculadora: function() {
+        calculadora: function(options) {
+        
+            var defaults = {
+                decimals: 2,
+                useCommaAsDecimalMark : false
+            }
+                
+            var options = $.extend(defaults, options);        
+        
             var ticket = $('<div id="calculadora" style="display: none; position: absolute"><ul></ul></div>');
             var ticketUl = ticket.find("ul");
             $("body").append(ticket);
             
             return this.each(function() {
+                var o = options;
                 var self = $(this);
                 var LastOperator = 0;
                 var TotalSoFar = 0;
@@ -33,7 +42,7 @@
                         if (number !== 0 && (event.which === 109 || event.which === 107 || event.which === 111 || event.which === 106)) {
                             event.preventDefault();
                             calculateSoFar( number );
-                            addToTicket(number.formatNumber(2), event.which);
+                            addToTicket(formatNumber(number, o.decimals), event.which);
                             LastOperator = event.which;
                             self.val("");    
                         }        
@@ -44,12 +53,11 @@
                                 event.preventDefault();
                             }
                             calculateSoFar( number );
-                            addToTicket(number.formatNumber(2), 48);
-                            addToTicket("<b>" + TotalSoFar.formatNumber(2) + "</b>", 0);
-                            self.val(TotalSoFar.formatNumber(2));
+                            addToTicket(formatNumber(number, o.decimals), 48);
+                            addToTicket(formatNumber(TotalSoFar, o.decimals), 0, "tot");
+                            self.val(formatNumber(TotalSoFar, o.decimals));
                             LastOperator = 0;
                         }
-
                     }
                 );
 
@@ -67,7 +75,7 @@
                     }
                 }
 
-                function addToTicket(text, which) {
+                function addToTicket(text, which, liclass) {
                     var pos = self.position();
                     if (!TicketIsVisible && pos) {
                         ticket.css('top', (pos.top - 15) + "px");
@@ -77,7 +85,7 @@
                         ticket.show();
                         TicketIsVisible = true;
                     }
-                    ticketUl.append("<li><div class='op'>" + operatorForCode(which) + "</div><div class='num'>" + text + "</div></li>");
+                    ticketUl.append("<li class='" + liclass + "'><div class='op'>" + operatorForCode(which) + "</div><div class='num'>" + text + "</div></li>");
                     ticket.css('top', (pos.top - ticket.height()) + "px");
                 }
 
@@ -86,10 +94,21 @@
 
             function parseLocalFloat(num) {
                 if (!num) return 0;
-                // use this if you using coma for decimal separator
-                //return parseFloat((num.replace(/\./g, "").replace(/ /g, "").replace("$", "").replace(",", ".")));
+                if (options.useCommaAsDecimalMark) {
+                    return parseFloat((num.replace(/\./g, "").replace(/ /g, "").replace("$", "").replace(",", ".")));
+                }
                 return parseFloat(num);
             }
+
+            function formatNumber(n, c) {
+                var d = "."; var t = ",";
+                if (options.useCommaAsDecimalMark) {
+                    d = ","; t = ".";
+                }
+                c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "," : d, t = t == undefined ? "." : t, s = n < 0 ? "-" : "", i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
+                return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+            };
+            
 
             function operatorForCode(whichKeyCode) {
                 if (whichKeyCode == 109) return("-");
@@ -105,10 +124,3 @@
     
 })(jQuery);
 
-Number.prototype.formatNumber = function (c) {
-    // use this if you using coma for decimal separator
-    //var d = ","; var t = ".";
-    var d = "."; var t = ",";
-    var n = this; c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "," : d, t = t == undefined ? "." : t, s = n < 0 ? "-" : "", i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
-    return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
-};

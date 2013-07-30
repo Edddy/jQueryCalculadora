@@ -5,6 +5,7 @@
     font: 12px courier new;
     min-height: 15px; 
     background: white;
+    box-shadow: 2px -2px 2px #eaeaea;
 }
 
 #calculadora ul {
@@ -13,4 +14,5 @@
 #calculadora li {overflow: hidden;}
 #calculadora li .op {float: right; width: 10px;}
 #calculadora li .num { margin-right: 15px; text-align: right; }
+#calculadora li.tot { margin-bottom: 3px; border-bottom: 1px dashed silver; padding-bottom: 3px; font-weight: bold }
 
