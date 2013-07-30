@@ -76,11 +76,11 @@
                 }
 
                 function addToTicket(text, which, liclass) {
-                    var pos = self.position();
+                    var pos = self.offset();
                     if (!TicketIsVisible && pos) {
                         ticket.css('top', (pos.top - 15) + "px");
                         ticket.css('left', pos.left + "px");
-                        ticket.css('width', self.width() + "px");
+                        ticket.css('min-width', self.width() + "px");
                         //ticket.show("slide", { direction: "up" }, 1000);
                         ticket.show();
                         TicketIsVisible = true;
