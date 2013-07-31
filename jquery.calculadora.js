@@ -1,5 +1,5 @@
 /*
- * jQuery Calculadora 0.2
+ * jQuery Calculadora 0.3
  * Copyright 2013, Eduardo Molteni
  *
 */
@@ -48,12 +48,12 @@
                         }        
                     
                         // si la tecla es enter o tab o =
-                        if (event.which == 13 || event.which == 9 || event.which == 48) {
-                            if (event.which == 13 || event.which == 48) {
+                        if (event.which == 13 || event.which == 9) {
+                            if (event.which == 13) {
                                 event.preventDefault();
                             }
                             calculateSoFar( number );
-                            addToTicket(formatNumber(number, o.decimals), 48);
+                            addToTicket(formatNumber(number, o.decimals), "=");
                             addToTicket(formatNumber(TotalSoFar, o.decimals), 0, "tot");
                             self.val(formatNumber(TotalSoFar, o.decimals));
                             LastOperator = 0;
@@ -115,7 +115,7 @@
                 if (whichKeyCode == 107) return ("+");
                 if (whichKeyCode == 111) return ("/");
                 if (whichKeyCode == 106) return ("*");
-                if (whichKeyCode == 48) return ("=");
+                if (whichKeyCode == "=") return ("=");
                 return "";
             }
 
