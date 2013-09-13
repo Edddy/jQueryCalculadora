@@ -11,6 +11,10 @@ Demo
 ----
 <a href="http://www.bizcacha.com/public/jqueryCalculadora/index.html">Demo</a>
 
+Gif Demo
+----
+<img src="http://i.imgur.com/t33fO6M.gif" />
+
 Options
 -------
 <ul>
