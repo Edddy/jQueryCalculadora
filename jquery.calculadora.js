@@ -97,7 +97,7 @@
                 if (options.useCommaAsDecimalMark) {
                     return parseFloat((num.replace(/\./g, "").replace(/ /g, "").replace("$", "").replace(",", ".")));
                 }
-                return parseFloat(num);
+				return parseFloat(num.replace(",", ""));
             }
 
             function formatNumber(n, c) {
