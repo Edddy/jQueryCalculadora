@@ -4,16 +4,16 @@
  *
 */
 
-(function($){
+(function ($) {
+    var defaults = {
+        decimals: 2,
+        useCommaAsDecimalMark: false
+    };
+
     $.fn.extend({
         calculadora: function(options) {
         
-            var defaults = {
-                decimals: 2,
-                useCommaAsDecimalMark: false
-            }
-                
-            var options = $.extend(defaults, options);        
+            var options = $.extend({}, defaults, options);        
         
             var ticket = $('<div id="calculadora" style="display: none; position: absolute"><ul></ul></div>');
             var ticketUl = ticket.find("ul");
@@ -31,6 +31,9 @@
                     ticketUl.html("");
                     ticket.hide();
                     TicketIsVisible = false;
+
+                    var number = parseLocalFloat(self.val());
+                    self.val(formatNumber(number, o.decimals));
                 });
 
                 self.keydown(    
@@ -85,15 +88,6 @@
                             event.preventDefault();
                             self.val(TotalSoFar * number / 100);
                         }
-                    }
-                );
-
-                self.blur(
-                    function () {
-                        event.preventDefault();
-                        var number = parseLocalFloat(self.val());
-                        calculateSoFar(number);
-                        self.val(formatNumber(TotalSoFar, o.decimals));
                     }
                 );
 
