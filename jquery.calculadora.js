@@ -10,7 +10,7 @@
         
             var defaults = {
                 decimals: 2,
-                useCommaAsDecimalMark : false
+                useCommaAsDecimalMark: false
             }
                 
             var options = $.extend(defaults, options);        
@@ -35,29 +35,65 @@
 
                 self.keydown(    
                     function (event) {
-                        var text = self.val();
-                        var number = parseLocalFloat(text);
+                        var number = parseLocalFloat(self.val());
 
-                        // if the key is  -+/* and there's a number in the input:
-                        if (number !== 0 && (event.which === 109 || event.which === 107 || event.which === 111 || event.which === 106)) {
-                            event.preventDefault();
-                            calculateSoFar( number );
-                            addToTicket(formatNumber(number, o.decimals), event.which);
-                            LastOperator = event.which;
-                            self.val("");    
-                        }        
-                    
+                        // if there's a number in the input:
+                        if (number !== 0)
+                            switch (event.which) {
+                                // if the key is   -+/*:
+                                case 109:
+                                case 107:
+                                case 111:
+                                case 106:
+                                    event.preventDefault();
+                                    calculateSoFar( number );
+                                    addToTicket(formatNumber(number, o.decimals), event.which);
+                                    LastOperator = event.which;
+                                    self.val(""); 
+                                    break;
+                                case 75: //if the key is  'k'
+                                    event.preventDefault();
+                                    self.val(number * 1000);
+                                    break;
+                                case 77: //if the key is  'M'
+                                    event.preventDefault();
+                                    self.val(number * 1000000);
+                                    break;
+                                    break;
+                            }
+
                         // si la tecla es enter o tab o =
                         if (event.which == 13 || event.which == 9) {
+                            console.log(event.which);
                             if (event.which == 13) {
                                 event.preventDefault();
                             }
-                            calculateSoFar( number );
+                            calculateSoFar(number);
                             addToTicket(formatNumber(number, o.decimals), "=");
                             addToTicket(formatNumber(TotalSoFar, o.decimals), 0, "tot");
                             self.val(formatNumber(TotalSoFar, o.decimals));
                             LastOperator = 0;
                         }
+                    }
+                );
+
+                self.keypress(
+                    function (event) {
+                        var number = parseLocalFloat(self.val());
+
+                        if (event.which == 37) {
+                            event.preventDefault();
+                            self.val(TotalSoFar * number / 100);
+                        }
+                    }
+                );
+
+                self.blur(
+                    function () {
+                        event.preventDefault();
+                        var number = parseLocalFloat(self.val());
+                        calculateSoFar(number);
+                        self.val(formatNumber(TotalSoFar, o.decimals));
                     }
                 );
 
