@@ -127,7 +127,7 @@
                 if (options.useCommaAsDecimalMark) {
                     return parseFloat((num.replace(/\./g, "").replace(/ /g, "").replace("$", "").replace(",", ".")));
                 }
-				return parseFloat(num.replace(",", ""));
+                return parseFloat(num.replace(/,/g, ""));
             }
 
             function formatNumber(n, c) {
